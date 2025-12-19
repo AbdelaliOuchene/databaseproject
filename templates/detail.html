@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'image</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>🏥 Gestion des Images Médicales</h1>
+            <div class="nav-links">
+                                <a href="{{ url_for('home') }}" class="active">Accueil</a>
+                <a href="{{ url_for('index') }}">Recherche</a>
+                <a href="{{ url_for('upload') }}">Upload</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="detail-header">
+            <a href="javascript:history.back()" class="btn btn-secondary">← Retour</a>
+            <h2>Détails de l'image médicale</h2>
+        </div>
+
+        <div class="detail-container">
+            <div class="detail-image">
+                <img src="{{ url_for('static', filename=image.chemin_image) }}" alt="image">
+                <div class="image-meta">
+                    <span class="badge">{{ image.type_examen }}</span>
+                    {% if image.format %}
+                    <span class="badge-light">{{ image.format|upper }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="detail-info">
+                <section class="info-section">
+                    <h3>👤 Informations Patient</h3>
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">Nom complet:</td>
+                            <td class="value">{{ image.patient_nom }} {{ image.patient_prenom }}</td>
+                        </tr>
+                        {% if image.date_naissance %}
+                        <tr>
+                            <td class="label">Date de naissance:</td>
+                            <td class="value">{{ image.date_naissance }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if image.sexe %}
+                        <tr>
+                            <td class="label">Sexe:</td>
+                            <td class="value">{{ image.sexe }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </section>
+
+                <section class="info-section">
+                    <h3>🔬 Informations Examen</h3>
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">Type d'examen:</td>
+                            <td class="value"><strong>{{ image.type_examen }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Date de l'examen:</td>
+                            <td class="value">{{ image.date_image }}</td>
+                        </tr>
+                        {% if image.description %}
+                        <tr>
+                            <td class="label">Description:</td>
+                            <td class="value">{{ image.description }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </section>
+
+                <section class="info-section">
+                    <h3>👨‍⚕️ Personnel Médical</h3>
+                    <table class="info-table">
+                        {% if image.medecin_nom %}
+                        <tr>
+                            <td class="label">Médecin prescripteur:</td>
+                            <td class="value">
+                                Dr. {{ image.medecin_nom }} {{ image.medecin_prenom }}
+                                {% if image.specialite %}
+                                <br><small>{{ image.specialite }}</small>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if image.radiologue_nom %}
+                        <tr>
+                            <td class="label">Radiologue:</td>
+                            <td class="value">{{ image.radiologue_nom }} {{ image.radiologue_prenom }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </section>
+
+                <section class="info-section">
+                    <h3>📁 Informations Fichier</h3>
+                    <table class="info-table">
+                        <tr>
+                            <td class="label">ID Image:</td>
+                            <td class="value">#{{ image.id_image }}</td>
+                        </tr>
+                        {% if image.format %}
+                        <tr>
+                            <td class="label">Format:</td>
+                            <td class="value">{{ image.format|upper }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if image.taille %}
+                        <tr>
+                            <td class="label">Taille:</td>
+                            <td class="value">{{ (image.taille / 1024)|round(2) }} KB</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td class="label">Chemin:</td>
+                            <td class="value"><code>{{ image.chemin_image }}</code></td>
+                        </tr>
+                    </table>
+                </section>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimer</button>
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">← Retour recherche</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Système de Gestion des Images Médicales</p>
+    </footer>
+</body>
+</html>

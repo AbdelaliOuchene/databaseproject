@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Gestion des Images Médicales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>Radiosync</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="active">Accueil</a>
+                <a href="{{ url_for('index') }}">Recherche</a>
+                <a href="{{ url_for('upload') }}">Upload</a>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Système de Gestion des Images Médicales</h1>
+                    <p class="hero-subtitle">
+                        Une solution complète et moderne pour la gestion, le stockage et la recherche
+                        d'images médicales dans votre établissement de santé
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="{{ url_for('index') }}" class="btn btn-light btn-large">
+                            🔍 Rechercher des images
+                        </a>
+                        <a href="{{ url_for('upload') }}" class="btn btn-light btn-large">
+                            📤 Ajouter une image
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+
+            <div class="container">
+                <h2 class="section-title">À propos du système</h2>
+                <p class="section-description">
+                    Notre système de gestion des images médicales offre une plateforme centralisée
+                    pour stocker, organiser et accéder facilement aux examens radiologiques.
+                    Conçu pour les hôpitaux, cliniques et centres d'imagerie médicale.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">Fonctionnalités principales</h2>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Recherche Avancée</h3>
+                        <p>
+                            Recherchez des images médicales par patient, médecin, radiologue,
+                            type d'examen ou période. Filtres multiples pour des résultats précis.
+                        </p>
+                        <a href="{{ url_for('index') }}" class="feature-link">Essayer →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📤</div>
+                        <h3>Upload Sécurisé</h3>
+                        <p>
+                            Téléchargez vos images médicales (RX, IRM, Scanner, Échographie)
+                            avec aperçu instantané. Support des formats JPG, PNG et DICOM.
+                        </p>
+                        <a href="{{ url_for('upload') }}" class="feature-link">Uploader →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Base de Données</h3>
+                        <p>
+                            Gestion complète des patients, médecins et radiologues.
+                            Stockage sécurisé avec traçabilité des examens médicaux.
+                        </p>
+                        <a href="{{ url_for('index') }}" class="feature-link">Découvrir →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Sécurité & Confidentialité</h3>
+                        <p>
+                            Protection des données médicales sensibles. Respect total
+                            de la confidentialité et des normes de sécurité.
+                        </p>
+                        <a href="#" class="feature-link">En savoir plus →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Performance</h3>
+                        <p>
+                            Système rapide et réactif pour accéder instantanément aux images.
+                            Optimisé pour gérer de gros volumes de données.
+                        </p>
+                        <a href="#" class="feature-link">Voir les détails →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Interface Moderne</h3>
+                        <p>
+                            Design responsive adapté à tous les appareils.
+                            Accessible depuis ordinateur, tablette ou smartphone.
+                        </p>
+                        <a href="#" class="feature-link">Découvrir →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Types Section -->
+        <section class="types-section">
+            <div class="container">
+                <h2 class="section-title">Types d'examens supportés</h2>
+
+                <div class="types-grid">
+                    <div class="type-badge">
+                        <span class="type-icon">📷</span>
+                        <span class="type-name">Radiographie (RX)</span>
+                    </div>
+                    <div class="type-badge">
+                        <span class="type-icon">🧲</span>
+                        <span class="type-name">IRM</span>
+                    </div>
+                    <div class="type-badge">
+                        <span class="type-icon">💉</span>
+                        <span class="type-name">Scanner (CT)</span>
+                    </div>
+                    <div class="type-badge">
+                        <span class="type-icon">📡</span>
+                        <span class="type-name">Échographie</span>
+                    </div>
+                    <div class="type-badge">
+                        <span class="type-icon">🎗️</span>
+                        <span class="type-name">Mammographie</span>
+                    </div>
+                    <div class="type-badge">
+                        <span class="type-icon">➕</span>
+                        <span class="type-name">Autres examens</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <h2 class="section-title">Système en chiffres</h2>
+
+                <div class="stats-grid-home">
+                    <div class="stat-card-home">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-number">{{ total_patients }}</div>
+                        <div class="stat-label">Patients enregistrés</div>
+                    </div>
+
+                    <div class="stat-card-home">
+                        <div class="stat-icon">👨‍⚕️</div>
+                        <div class="stat-number">{{ total_medecins }}</div>
+                        <div class="stat-label">Médecins</div>
+                    </div>
+
+                    <div class="stat-card-home">
+                        <div class="stat-icon">🔬</div>
+                        <div class="stat-number">{{ total_radiologues }}</div>
+                        <div class="stat-label">Radiologues</div>
+                    </div>
+
+                    <div class="stat-card-home">
+                        <div class="stat-icon">🖼️</div>
+                        <div class="stat-number">{{ total_images }}</div>
+                        <div class="stat-label">Images médicales</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Prêt à commencer ?</h2>
+                    <p>Accédez à toutes les fonctionnalités du système dès maintenant</p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('index') }}" class="btn btn-light btn-large">
+                            Rechercher
+                        </a>
+                        <a href="{{ url_for('upload') }}" class="btn btn-light btn-large">
+                            Upload Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Section -->
+        <section class="info-section-home">
+            <div class="container">
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Sécurité</h3>
+                        <p>
+                            Vos données médicales sont sécurisées avec des protocoles
+                            de protection modernes. Respect total de la confidentialité.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Performance</h3>
+                        <p>
+                            Système rapide et réactif. Recherche instantanée et
+                            chargement optimisé des images médicales.
+                        </p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>Accessible</h3>
+                        <p>
+                            Interface responsive compatible tous appareils.
+                            Accédez au système depuis ordinateur, tablette ou mobile.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Système de Gestion des Images Médicales | Module Base de Données</p>
+        <p><small>Développé pour améliorer la gestion des examens radiologiques</small></p>
+    </footer>
+</body>
+</html>

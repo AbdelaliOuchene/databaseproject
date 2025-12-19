@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de recherche</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>🏥 Gestion des Images Médicales</h1>
+            <div class="nav-links">
+                                <a href="{{ url_for('home') }}" class="active">Accueil</a>
+                <a href="{{ url_for('index') }}">Recherche</a>
+                <a href="{{ url_for('upload') }}">Upload</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="results-header">
+            <h2>📋 Résultats de recherche</h2>
+            <p class="results-count">{{ images|length }} image(s) trouvée(s)</p>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">← Nouvelle recherche</a>
+        </div>
+
+        {% if images|length > 0 %}
+        <div class="images-grid">
+            {% for image in images %}
+            <div class="image-card">
+                <div class="image-preview">
+                   <img src="{{ url_for('static', filename=image.chemin_image) }}" alt="image">
+                    <span class="image-type">{{ image.type_examen }}</span>
+                </div>
+
+                <div class="image-info">
+                    <h3>{{ image.patient_nom }} {{ image.patient_prenom }}</h3>
+
+                    <div class="info-row">
+                        <span class="label">📅 Date:</span>
+                        <span class="value">{{ image.date_image }}</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="label">👨‍⚕️ Médecin:</span>
+                        <span class="value">
+                            {% if image.medecin_nom %}
+                                Dr. {{ image.medecin_nom }} {{ image.medecin_prenom }}
+                            {% else %}
+                                Non spécifié
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="label">🔬 Radiologue:</span>
+                        <span class="value">
+                            {% if image.radiologue_nom %}
+                                {{ image.radiologue_nom }} {{ image.radiologue_prenom }}
+                            {% else %}
+                                Non spécifié
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    {% if image.description %}
+                    <div class="description">
+                        <p>{{ image.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="card-actions">
+                        <a href="{{ url_for('image_detail', id=image.id_image) }}"
+                           class="btn btn-small btn-primary">
+                            👁️ Voir détails
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-results">
+            <div class="empty-state">
+                <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="40" stroke="#ddd" stroke-width="3"/>
+                    <line x1="30" y1="50" x2="70" y2="50" stroke="#ddd" stroke-width="3"/>
+                </svg>
+                <h3>Aucune image trouvée</h3>
+                <p>Essayez de modifier vos critères de recherche</p>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">← Retour à la recherche</a>
+            </div>
+        </div>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Système de Gestion des Images Médicales</p>
+    </footer>
+</body>
+</html>

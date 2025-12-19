@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image Médicale</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>Radiosync</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="active">Accueil</a>
+                <a href="{{ url_for('index') }}">Recherche</a>
+                <a href="{{ url_for('upload') }}" class="active">Upload</a>
+
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="upload-section">
+            <h2>Ajouter une nouvelle image médicale</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data" class="upload-form">
+                <div class="form-section">
+                    <h3>Informations de l'examen</h3>
+
+                    <div class="form-group required">
+                        <label for="patient_id">Patient *</label>
+                        <select name="patient_id" id="patient_id" required>
+                            <option value="">-- Sélectionner un patient --</option>
+                            {% for patient in patients %}
+                            <option value="{{ patient.id_patient }}">
+                                {{ patient.nom }} {{ patient.prenom }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="medecin_id">Médecin prescripteur</label>
+                        <select name="medecin_id" id="medecin_id">
+                            <option value="">-- Sélectionner un médecin --</option>
+                            {% for medecin in medecins %}
+                            <option value="{{ medecin.id_medecin }}">
+                                Dr. {{ medecin.nom }} {{ medecin.prenom }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="radiologue_id">Radiologue</label>
+                        <select name="radiologue_id" id="radiologue_id">
+                            <option value="">-- Sélectionner un radiologue --</option>
+                            {% for radiologue in radiologues %}
+                            <option value="{{ radiologue.id_radiologue }}">
+                                {{ radiologue.nom }} {{ radiologue.prenom }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group required">
+                        <label for="type_examen">Type d'examen *</label>
+                        <select name="type_examen" id="type_examen" required>
+                            <option value="">-- Sélectionner un type --</option>
+                            <option value="RX">Radiographie (RX)</option>
+                            <option value="IRM">IRM</option>
+                            <option value="Scanner">Scanner</option>
+                            <option value="Echographie">Échographie</option>
+                            <option value="Mammographie">Mammographie</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="4"
+                                  placeholder="Description de l'examen, observations..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>📁 Fichier image</h3>
+
+                    <div class="form-group required">
+                        <label for="image_file">Sélectionner une image *</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file"
+                                   name="image_file"
+                                   id="image_file"
+                                   accept="image/*,.dcm,.dicom"
+                                   required
+                                   onchange="updateFileName(this)">
+                            <label for="image_file" class="file-upload-label">
+                                <span class="file-icon">📎</span>
+                                <span class="file-text">Choisir un fichier...</span>
+                            </label>
+                            <p class="file-info">Formats acceptés: JPG, PNG, DICOM</p>
+                        </div>
+                    </div>
+
+                    <div id="preview-container" class="preview-container" style="display:none;">
+                        <h4>Aperçu:</h4>
+                        <img id="preview-image" src="" alt="Aperçu">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Enregistrer l'image</button>
+                    <button type="reset" class="btn btn-secondary" onclick="resetPreview()">Réinitialiser</button>
+                    <a href="{{ url_for('index') }}" class="btn btn-light">Annuler</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="help-section">
+            <h3>ℹ️ Aide</h3>
+            <ul>
+                <li>Les champs marqués d'un * sont obligatoires</li>
+                <li>L'image sera automatiquement associée à la date d'aujourd'hui</li>
+                <li>Formats supportés: JPG, PNG, DICOM (.dcm)</li>
+                <li>Taille maximale recommandée: 10 MB</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Système de Gestion des Images Médicales</p>
+    </footer>
+
+    <script>
+        function updateFileName(input) {
+            const fileLabel = input.nextElementSibling.querySelector('.file-text');
+            const previewContainer = document.getElementById('preview-container');
+            const previewImage = document.getElementById('preview-image');
+
+            if (input.files && input.files[0]) {
+                fileLabel.textContent = input.files[0].name;
+
+                // Afficher l'aperçu si c'est une image
+                if (input.files[0].type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            } else {
+                fileLabel.textContent = 'Choisir un fichier...';
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        function resetPreview() {
+            document.getElementById('preview-container').style.display = 'none';
+            document.querySelector('.file-text').textContent = 'Choisir un fichier...';
+        }
+    </script>
+</body>
+</html>
